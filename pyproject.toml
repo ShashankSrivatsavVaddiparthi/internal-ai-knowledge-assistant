@@ -8,9 +8,12 @@ dependencies = [
     "aiofiles>=25.1.0",
     "fastapi>=0.119.1",
     "langchain>=1.0.1",
+    "langchain-community>=0.4",
     "langchain-google-genai>=3.0.0",
     "langchain-huggingface>=1.0.0",
     "langgraph>=1.0.1",
+    "pymupdf>=1.26.5",
     "python-multipart>=0.0.20",
+    "unstructured>=0.18.15",
     "uvicorn>=0.38.0",
 ]
