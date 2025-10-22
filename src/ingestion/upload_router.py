@@ -3,6 +3,7 @@ import aiofiles
 import os
 from datetime import datetime
 from src.parsing.parser_service import parse_document, clean_and_save
+from src.vectorstore.vector_service import chunk_and_embed
 
 router = APIRouter(prefix="/upload", tags=["Ingestion"])
 
@@ -22,12 +23,16 @@ async def upload_document(file: UploadFile = File(...)):
         
         docs = parse_document(file_path)
         processed_path = clean_and_save(docs)
+
+        index_info = chunk_and_embed(docs)
         
         return {
             "filename": file.filename, 
             "path": file_path, 
             "processed": processed_path, 
-            "status": "parsed and stored successfully"
+            "chunks_created": index_info["chunks"], 
+            "index_saved_at": index_info["index_path"],
+            "status": "parsed and indexed successfully"
         }
     
     except Exception as e:
