@@ -13,6 +13,3 @@ uv.lock
 
 # Environment variables
 .env
-
-# Data
-data/
