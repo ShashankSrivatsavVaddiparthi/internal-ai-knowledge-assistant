@@ -13,3 +13,7 @@ uv.lock
 
 # Environment variables
 .env
+
+# Data files
+data/
+vectors/iaka_index/

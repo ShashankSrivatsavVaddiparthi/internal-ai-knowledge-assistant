@@ -7,12 +7,9 @@ def parse_document(file_path: str) -> List[Document]:
     """Parses a single uploaded document into LangChain Document objects."""
     ext = os.path.splitext(file_path)[-1].lower()
 
-    if ext == ".pdf":
-        loader = PyMuPDFLoader(file_path)
-    else:
-        loader = UnstructuredFileLoader(file_path)
-
+    loader = UnstructuredFileLoader(file_path)
     docs = loader.load()
+    
     return docs
 
 def clean_and_save(docs: List[Document], output_dir: str = "data/processed") -> str:
