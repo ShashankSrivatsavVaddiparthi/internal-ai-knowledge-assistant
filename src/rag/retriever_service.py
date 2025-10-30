@@ -10,7 +10,7 @@ from src.vectorstore.vector_service import load_vectorstore
 load_dotenv()
 
 def build_qa_prompt():
-    """Builds RAG chain using FAISS and Gemini 2.5 Flash."""
+    """Builds RAG prompt using FAISS and Gemini 2.5 Flash."""
     # vectorstore = load_vectorstore("iaka_index")
 
     # llm = init_chat_model("gemini-2.5-flash", model_provider="google_genai")
