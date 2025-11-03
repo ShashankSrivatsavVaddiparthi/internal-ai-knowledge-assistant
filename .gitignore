@@ -17,3 +17,4 @@ uv.lock
 # Data files
 data/
 vectors/iaka_index/
+google_drive_tokens/
