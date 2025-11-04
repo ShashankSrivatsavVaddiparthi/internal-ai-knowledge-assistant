@@ -27,11 +27,12 @@ This document outlines the planned development phases and milestones for the Int
 | ------------- | ------------------- | ------------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
 | M1            | P1 – P2             | Core Document Intelligence            | Build ingestion and indexing foundation across multiple file types.                   | Robust RAG pipeline with multi-format ingestion and clean chunks. |
 | M2            | P3 – P4             | Drive & Folder Ingestion              | Google Drive and local folder ingestion capabilities delivered.                        | Cloud + local ingestion foundation in place.                      |
-| M3            | P5                  | Evaluation & Quality Benchmarking     | Benchmark system accuracy, latency, and relevance.                                    | Baseline metrics established for further optimization.            |
-| M4            | P6                  | Search Optimization & Reranking       | Integrate hybrid search and reranking.                                                | Enhanced retrieval performance and contextual accuracy.           |
-| M5            | P7                  | Caching & Reindexing Efficiency       | Optimize speed and reindexing strategy.                                               | Faster, scalable retrieval and refresh workflows.                 |
-| M6            | P8                  | Observability & Tracing               | Add monitoring, logging, and tracing.                                                 | Transparent performance insights and diagnostics.                 |
-| M7            | P9                  | Frontend Integration & Access         | Build final user interface (Windows app or web).                                      | Complete, enterprise-ready assistant experience.                  |
+| M3            | P5                  | Real-Time Folder Monitoring           | Watch folders for changes and trigger automatic re-indexing.                           | Continuous, automated updates to the local index.                 |
+| M4            | P6                  | Evaluation & Quality Benchmarking     | Benchmark system accuracy, latency, and relevance.                                    | Baseline metrics established for further optimization.            |
+| M5            | P7                  | Search Optimization & Reranking       | Integrate hybrid search and reranking.                                                | Enhanced retrieval performance and contextual accuracy.           |
+| M6            | P8                  | Caching & Reindexing Efficiency       | Optimize speed and reindexing strategy.                                               | Faster, scalable retrieval and refresh workflows.                 |
+| M7            | P9                  | Observability & Tracing               | Add monitoring, logging, and tracing.                                                 | Transparent performance insights and diagnostics.                 |
+| M8            | P10                 | Frontend Integration & Access         | Build final user interface (Windows app or web).                                      | Complete, enterprise-ready assistant experience.                  |
 
 ---
 

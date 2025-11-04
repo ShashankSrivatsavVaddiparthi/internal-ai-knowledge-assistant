@@ -70,13 +70,14 @@ python src/main.py
 
 See the detailed plan in [`ROADMAP.md`](./ROADMAP.md). TL;DR milestones:
 
-- M1 (P1–P3): Core Document Intelligence — multi-format ingestion, better chunking, folder ingest
-- M2 (P4): Automation & Sync — real-time folder monitoring and auto re-indexing
-- M3 (P5): Evaluation & Quality — baseline RAG metrics with RAGAS + LangSmith
-- M4 (P6): Search Optimization — hybrid (semantic+BM25) and reranking
-- M5 (P7): Caching & Reindexing — faster retrieval, incremental refresh
-- M6 (P8): Observability & Tracing — logging, tracing, performance tracking
-- M7 (P9): Frontend Integration — PySide6 or web UI over FastAPI
+- M1 (P1–P2): Core Document Intelligence — multi-format ingestion and clean chunking
+- M2 (P3–P4): Drive & Folder Ingestion — Google Drive + local folder ingestion
+- M3 (P5): Real-Time Folder Monitoring — automatic re-indexing on changes
+- M4 (P6): Evaluation & Quality — baseline RAG metrics with RAGAS + LangSmith
+- M5 (P7): Search Optimization — hybrid (semantic+BM25) and reranking
+- M6 (P8): Caching & Reindexing — faster retrieval, incremental refresh
+- M7 (P9): Observability & Tracing — logging, tracing, performance tracking
+- M8 (P10): Frontend Integration — PySide6 or web UI over FastAPI
 
 
 ## License
