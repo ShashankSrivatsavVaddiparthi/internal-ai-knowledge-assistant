@@ -1,122 +1,121 @@
 # Project Roadmap
 
-_Last updated: October 29, 2025_
+_Last updated: November 4, 2025_
 
-This document outlines the planned development phases and milestones for the Internal AI Knowledge Assistant project. The current status is MVP (see Phase 0).
+This document outlines the planned development phases and milestones for the Internal AI Knowledge Assistant project.
 
 ---
 
 ## TL;DR: Phase Overview
 
-| **Phase**   | **Title**                     | **Goal / Objective**                                      |
-| ----------- | ----------------------------- | --------------------------------------------------------- |
-| Phase 0     | MVP                           | PDF ingestion, FAISS vector store, basic UI               |
-| Phase 1     | Multi-format Document Loading  | Ingest DOCX, TXT, Markdown; standardize extraction        |
-| Phase 2     | Google Drive Integration       | Ingest and index files from Google Drive                  |
-| Phase 3     | Folder-based Auto Ingestion    | Watch folders for new/updated files, auto-index           |
-| Phase 4     | Evaluation Framework           | RAG evaluation, LangSmith integration, metrics            |
-| Phase 5     | Search Optimization            | Hybrid search, BM25, reranking, retrieval tuning          |
-| Phase 6     | Caching and Reindexing         | Embedding cache, incremental reindexing                   |
-| Phase 7     | Observability and Logging      | FastAPI tracing, LangSmith, structured logging            |
-| Phase 8     | Frontend Development           | PySide6 desktop UI, chat/upload, connect to backend       |
+| **Phase** | **Title**                         | **Objective / Focus**                                                                            |
+| --------- | --------------------------------- | ------------------------------------------------------------------------------------------------ |
+| P1        | Multi-Format Document Loader      | Add support for `.docx`, `.md`, `.txt`, and other structured documents in addition to PDFs.      |
+| P2        | Enhanced Chunking & Indexing      | Refine document splitting logic and indexing workflow for consistent retrieval quality.          |
+| P3        | Folder-Based Ingestion            | Enable the system to read all documents inside a given folder path and index them automatically. |
+| P4        | Real-Time Folder Monitoring       | Watch specified folders for new or updated files and trigger ingestion automatically.            |
+| P5        | Evaluation & Quality Benchmarking | Evaluate baseline RAG performance before search optimization.                                    |
+| P6        | Search Optimization & Reranking   | Implement hybrid (semantic + keyword) search and add reranking for better retrieval.             |
+| P7        | Caching & Reindexing Efficiency   | Improve retrieval speed and manage reindexing intelligently.                                     |
+| P8        | Observability & Tracing           | Add system-level monitoring, logging, and performance tracking.                                  |
+| P9        | Frontend Integration & Access     | Create an enterprise-grade user interface (Windows or web) to interact with FastAPI.             |
 
 ## Milestones
 
-| **Milestone**   | **Included Phases** | **Theme**                                    | **Deliverable**                                                                               |
-| --------------- | ------------------- | -------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| **Milestone 1** | Phases 1 – 3        | **Document Ingestion & Indexing Automation** | Unified ingestion system supporting multiple file types, Google Drive, and folder auto-watch. |
-| **Milestone 2** | Phase 4             | **Evaluation Framework**                     | Baseline RAG performance metrics and LangSmith integration.                                   |
-| **Milestone 3** | Phase 5             | **Search Optimization**                      | Hybrid search, BM25, and reranking implemented.                                               |
-| **Milestone 4** | Phase 6             | **Caching & Reindexing**                     | Embedding cache, incremental reindexing, and update tracking.                                 |
-| **Milestone 5** | Phase 7             | **Observability & Logging**                  | LangSmith and structured FastAPI observability layer.                                         |
-| **Milestone 6** | Phase 8             | **Frontend UI**                              | PySide6-based Windows application connected to backend API.                                   |
+| **Milestone** | **Included Phases** | **Title**                             | **Objective / Focus**                                                                 | **Expected Outcome**                                              |
+| ------------- | ------------------- | ------------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| M1            | P1 – P3             | Core Document Intelligence            | Build ingestion and indexing foundation across multiple file types and local folders. | Robust RAG pipeline with multi-format and folder-based ingestion. |
+| M2            | P4                  | Automation & Sync                     | Implement real-time folder monitoring for automatic re-indexing.                      | Dynamic ingestion pipeline that updates automatically.            |
+| M3            | P5                  | Evaluation & Quality Benchmarking     | Benchmark system accuracy, latency, and relevance.                                    | Baseline metrics established for further optimization.            |
+| M4            | P6                  | Search Optimization & Reranking       | Integrate hybrid search and reranking.                                                | Enhanced retrieval performance and contextual accuracy.           |
+| M5            | P7                  | Caching & Reindexing Efficiency       | Optimize speed and reindexing strategy.                                               | Faster, scalable retrieval and refresh workflows.                 |
+| M6            | P8                  | Observability & Tracing               | Add monitoring, logging, and tracing.                                                 | Transparent performance insights and diagnostics.                 |
+| M7            | P9                  | Frontend Integration & Access         | Build final user interface (Windows app or web).                                      | Complete, enterprise-ready assistant experience.                  |
 
 ---
 
 ## Development Phases
 
-### Phase 0: MVP
-**Goal:** Baseline project (current state): PDF ingestion, FAISS vector store, basic UI.
+### P1: Multi-Format Document Loader
+**Objective:** Expand ingestion to handle DOCX, Markdown, TXT, and other structured files beyond PDFs.
 **Core Tasks:**
-- Handle PDF uploads and extraction
-- Chunking & embeddings
-- FAISS indexing
-- Basic query endpoint and Gradio/FastAPI UI
-**Key Tools:** `faiss-cpu`, `langchain`, `sentence-transformers`, `fastapi`, `gradio`, `pymupdf`, `unstructured`
-**Expected Outcome:** Working MVP: PDF ingestion + semantic search + basic UI
+- Integrate `langchain.document_loaders` and custom loaders where needed
+- Standardize text extraction and metadata normalization
+- Ensure compatibility with current FAISS indexing flow
+**Key Tools:** `langchain.document_loaders`, `unstructured`, `python-docx`, `markdown`
+**Expected Outcome:** Broader ingestion capability for diverse internal files
 
-### Phase 1: Multi-format Document Loading
-**Goal:** Expand ingestion pipeline to handle multiple file types beyond PDFs.
+### P2: Enhanced Chunking & Indexing
+**Objective:** Improve chunk split logic and indexing consistency for higher-quality retrieval.
 **Core Tasks:**
-- Integrate loaders for DOCX, TXT, and Markdown
-- Standardize text extraction pipeline
-- Ensure compatibility with FAISS-based chunking
-**Key Tools:** `langchain_community.document_loaders`, `unstructured`, `python-docx`, `markdown`
-**Expected Outcome:** Unified ingestion pipeline that can process diverse file formats
+- Adopt `RecursiveCharacterTextSplitter` with format-aware heuristics
+- Normalize chunk metadata and IDs
+- Rebuild FAISS indexes with tuned embedding settings
+**Key Tools:** `RecursiveCharacterTextSplitter`, `FAISS`, `sentence-transformers`
+**Expected Outcome:** Cleaner chunks and better embeddings for retrieval quality
 
-### Phase 2: Google Drive Integration
-**Goal:** Allow reading and indexing of enterprise documents directly from Google Drive.
+### P3: Folder-Based Ingestion
+**Objective:** Index all documents within a specified local directory path.
 **Core Tasks:**
-- Connect with Google Drive API
-- Add OAuth authentication
-- Support file listing and selective indexing
-**Key Tools:** Google Drive API, `google-auth`, `google-api-python-client`
-**Expected Outcome:** Secure integration for cloud document ingestion
+- Recursively traverse directories with allow/deny globs
+- Batch load and index supported file types
+- Maintain per-file indexing status
+**Key Tools:** `os`, `pathlib`, `langchain`, `FAISS`
+**Expected Outcome:** Seamless ingestion of multiple local files via directory path
 
-### Phase 3: Folder-based Auto Ingestion
-**Goal:** Automate local document ingestion by watching folders for new or updated files.
+### P4: Real-Time Folder Monitoring
+**Objective:** Continuously watch folders and auto-trigger ingestion on changes.
 **Core Tasks:**
-- Implement folder monitoring using `watchdog`
-- Trigger parsing and indexing on change
-- Maintain indexing logs for updates
-**Key Tools:** `watchdog`, `os`, `langchain`, FAISS
-**Expected Outcome:** Seamless background ingestion pipeline for local documents
+- Implement watchers with `watchdog`
+- Debounce rapid change events and coalesce batches
+- Trigger incremental reindexing for new/updated files
+**Key Tools:** `watchdog`, `os`, `langchain`
+**Expected Outcome:** Continuous, automated updates to the local document index
 
-### Phase 4: Evaluation Framework
-**Goal:** Quantitatively evaluate RAG system before optimization.
+### P5: Evaluation & Quality Benchmarking
+**Objective:** Establish baseline RAG quality and latency metrics before optimization.
 **Core Tasks:**
-- Integrate RAGAS for answer quality evaluation
-- Use LangSmith for trace-level monitoring
-- Record evaluation metrics (faithfulness, relevance)
-**Key Tools:** `RAGAS`, `LangSmith`, `langchain.evaluation`
-**Expected Outcome:** Baseline performance report for retrieval and generation
+- Integrate `RAGAS` for faithfulness/relevance
+- Use `LangSmith` traces for pipeline observability during eval runs
+- Persist and compare baseline metrics over time
+**Key Tools:** `RAGAS`, `LangSmith`
+**Expected Outcome:** Baseline metrics to guide further optimization
 
-### Phase 5: Search Optimization
-**Goal:** Improve retrieval quality and ranking for context passages.
+### P6: Search Optimization & Reranking
+**Objective:** Improve recall and precision with hybrid search and reranking.
 **Core Tasks:**
-- Implement hybrid search (semantic + lexical)
-- Integrate BM25 keyword search
-- Add reranking with cross-encoder models
-- Tune retrieval thresholds
-**Key Tools:** FAISS, BM25, `sentence-transformers`, `langchain.retrievers.multi_vector`, `colbert` (optional)
-**Expected Outcome:** Significantly improved retrieval accuracy and context relevance
+- Add BM25 lexical search and combine with semantic retrieval
+- Introduce rerankers (e.g., cross-encoders) for top-K passages
+- Tune thresholds and weights for hybrid scorer
+**Key Tools:** `BM25`, hybrid retrievers, rerankers, `FAISS`, `sentence-transformers`
+**Expected Outcome:** Higher recall and contextual precision
 
-### Phase 6: Caching and Reindexing
-**Goal:** Introduce cache mechanisms and efficient reindexing workflows.
+### P7: Caching & Reindexing Efficiency
+**Objective:** Reduce latency and optimize refresh cycles.
 **Core Tasks:**
-- Add Redis or local cache for embeddings
-- Automate index refresh when documents change
-- Handle stale embeddings gracefully
-**Key Tools:** `Redis`, FAISS, `pickle`, file metadata tracking
-**Expected Outcome:** Reduced latency and stable index refresh workflow
+- Embed-level caching (local/Redis) to avoid recomputation
+- Incremental indexing keyed by file hash/mtime
+- Prune stale entries safely
+**Key Tools:** Local cache, `Redis` (optional), incremental indexing logic
+**Expected Outcome:** Lower latency and optimized refresh cycles
 
-### Phase 7: Observability and Logging
-**Goal:** Enable visibility into pipeline execution and debugging.
+### P8: Observability & Tracing
+**Objective:** Provide system-level monitoring and visibility.
 **Core Tasks:**
-- Add FastAPI request tracing and timing logs
-- Integrate LangSmith observability
-- Structured logging with log levels
-**Key Tools:** `LangSmith`, `structlog`, `FastAPI` middlewares
-**Expected Outcome:** Full runtime observability and traceable workflow history
+- Add structured logging and timing around critical paths
+- Integrate `LangSmith` for tracing
+- Dashboard key pipeline metrics
+**Key Tools:** `LangSmith`, logging middleware
+**Expected Outcome:** Clear visibility into pipeline health and metrics
 
-### Phase 8: Frontend Development
-**Goal:** Build interactive UI for end users.
+### P9: Frontend Integration & Access
+**Objective:** Deliver a usable enterprise UI tied to FastAPI.
 **Core Tasks:**
-- Develop desktop UI with PySide6
-- Bind UI actions to FastAPI endpoints
-- Display chat interface, upload panel, and RAG responses
-**Key Tools:** **PySide6 (Qt for Python)**, FastAPI, optional Flask or React frontend
-**Expected Outcome:** Intuitive interface for interacting with the assistant locally
+- Build Windows desktop app with `PySide6` or a web frontend
+- Wire UI actions to backend ingestion/query endpoints
+- Provide chat, upload, and results visualization
+**Key Tools:** `PySide6` / web frontend, FastAPI
+**Expected Outcome:** Usable and deployable enterprise interface
 
 ---
 

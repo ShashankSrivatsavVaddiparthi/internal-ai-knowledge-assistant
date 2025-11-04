@@ -68,7 +68,16 @@ python src/main.py
 
 ## Development Roadmap
 
-For a quick summary and detailed roadmap, see [`ROADMAP.md`](./ROADMAP.md).
+See the detailed plan in [`ROADMAP.md`](./ROADMAP.md). TL;DR milestones:
+
+- M1 (P1–P3): Core Document Intelligence — multi-format ingestion, better chunking, folder ingest
+- M2 (P4): Automation & Sync — real-time folder monitoring and auto re-indexing
+- M3 (P5): Evaluation & Quality — baseline RAG metrics with RAGAS + LangSmith
+- M4 (P6): Search Optimization — hybrid (semantic+BM25) and reranking
+- M5 (P7): Caching & Reindexing — faster retrieval, incremental refresh
+- M6 (P8): Observability & Tracing — logging, tracing, performance tracking
+- M7 (P9): Frontend Integration — PySide6 or web UI over FastAPI
+
 
 ## License
 
