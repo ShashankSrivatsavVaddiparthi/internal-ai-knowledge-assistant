@@ -5,8 +5,6 @@ from typing import List
 
 def parse_document(file_path: str) -> List[Document]:
     """Parses a single uploaded document into LangChain Document objects."""
-    ext = os.path.splitext(file_path)[-1].lower()
-
     loader = UnstructuredFileLoader(file_path)
     docs = loader.load()
     
