@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException, Query
 from datetime import datetime
-from src.parsing.parser_service import parse_document, clean_and_save
 from src.vectorstore.vector_service import chunk_and_embed
 from langchain_googledrive.document_loaders import GoogleDriveLoader
 from langchain_community.document_loaders import UnstructuredFileLoader
