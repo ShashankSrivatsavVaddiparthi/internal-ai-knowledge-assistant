@@ -1,11 +1,12 @@
 from fastapi import FastAPI, Query
 from src.ingestion.upload_router import router as upload_router
 from src.rag.retriever_service import query_knowledge_base
-from src.ingestion.google_drive_router import google_drive_file_router
+from src.ingestion.google_drive_router import google_drive_file_router, google_drive_folder_router
 
 app = FastAPI(title="Internal AI Knowledge Assistant")
 app.include_router(upload_router)
 app.include_router(google_drive_file_router)
+app.include_router(google_drive_folder_router)
 
 @app.get("/")
 def root():

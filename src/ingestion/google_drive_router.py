@@ -12,6 +12,7 @@ import traceback
 credentials = "google_drive_tokens/credentials.json"
 
 google_drive_file_router = APIRouter(prefix="/google-drive-file", tags=["Google Drive"])
+google_drive_folder_router = APIRouter(prefix="/google-drive-folder", tags=["Google Drive"])
 
 PROCESSED_DIR = "data/processed"
 os.makedirs(PROCESSED_DIR, exist_ok=True)
@@ -88,6 +89,54 @@ async def upload_google_drive_file(file_id: str = Query(..., description="Google
         
         return {
             "message": f"Processed {len(docs)} document(s) and indexed ({index_info['chunks']} chunks)",
+            "filenames": file_titles,
+            "processed_paths": processed_paths,
+            "chunks_created": index_info["chunks"],
+            "index_saved_at": index_info["index_path"],
+            "status": "parsed and indexed successfully"
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        # Include full traceback for debugging
+        error_detail = f"Error: {str(e)}\n\nTraceback:\n{traceback.format_exc()}"
+        raise HTTPException(status_code=500, detail=error_detail)
+
+@google_drive_folder_router.post("/")
+async def upload_google_drive_folder(folder_id: str = Query(..., description="Google Drive folder ID")):
+    """Upload, parse, and clean all files from a Google Drive folder."""
+    try:
+        # Check if credentials file exists
+        if not os.path.exists(credentials):
+            raise HTTPException(
+                status_code=400, 
+                detail=f"Google Drive credentials file not found at {credentials}. Please ensure credentials.json exists."
+            )
+        
+        # Set environment variable for GoogleDriveLoader to use
+        os.environ["GOOGLE_ACCOUNT_FILE"] = credentials
+        
+        loader = GoogleDriveLoader(
+            folder_id=folder_id,
+            conv_mapping={
+                "application/pdf": UnstructuredFileLoader, 
+            },
+            recursive=False,
+        )
+        docs = loader.load()
+        
+        if not docs:
+            raise HTTPException(status_code=404, detail="No documents found in the given folder ID")
+        
+        # Process each document individually using custom function for Google Drive
+        processed_paths = clean_and_save_gdrive(docs, output_dir=PROCESSED_DIR)
+        index_info = chunk_and_embed(docs)
+        
+        # Get file titles from metadata
+        file_titles = [doc.metadata.get("title", folder_id) for doc in docs]
+        
+        return {
+            "message": f"Processed {len(docs)} document(s) from folder and indexed ({index_info['chunks']} chunks)",
             "filenames": file_titles,
             "processed_paths": processed_paths,
             "chunks_created": index_info["chunks"],
