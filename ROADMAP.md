@@ -12,20 +12,21 @@ This document outlines the planned development phases and milestones for the Int
 | --------- | --------------------------------- | ------------------------------------------------------------------------------------------------ |
 | P1        | Multi-Format Document Loader      | Add support for `.docx`, `.md`, `.txt`, and other structured documents in addition to PDFs.      |
 | P2        | Enhanced Chunking & Indexing      | Refine document splitting logic and indexing workflow for consistent retrieval quality.          |
-| P3        | Folder-Based Ingestion            | Enable the system to read all documents inside a given folder path and index them automatically. |
-| P4        | Real-Time Folder Monitoring       | Watch specified folders for new or updated files and trigger ingestion automatically.            |
-| P5        | Evaluation & Quality Benchmarking | Evaluate baseline RAG performance before search optimization.                                    |
-| P6        | Search Optimization & Reranking   | Implement hybrid (semantic + keyword) search and add reranking for better retrieval.             |
-| P7        | Caching & Reindexing Efficiency   | Improve retrieval speed and manage reindexing intelligently.                                     |
-| P8        | Observability & Tracing           | Add system-level monitoring, logging, and performance tracking.                                  |
-| P9        | Frontend Integration & Access     | Create an enterprise-grade user interface (Windows or web) to interact with FastAPI.             |
+| P3        | Google Drive Ingestion            | Ingest and index enterprise documents directly from Google Drive.                               |
+| P4        | Folder-Based Ingestion            | Enable the system to read all documents inside a given folder path and index them automatically. |
+| P5        | Real-Time Folder Monitoring       | Watch specified folders for new or updated files and trigger ingestion automatically.            |
+| P6        | Evaluation & Quality Benchmarking | Evaluate baseline RAG performance before search optimization.                                    |
+| P7        | Search Optimization & Reranking   | Implement hybrid (semantic + keyword) search and add reranking for better retrieval.             |
+| P8        | Caching & Reindexing Efficiency   | Improve retrieval speed and manage reindexing intelligently.                                     |
+| P9        | Observability & Tracing           | Add system-level monitoring, logging, and performance tracking.                                  |
+| P10       | Frontend Integration & Access     | Create an enterprise-grade user interface (Windows or web) to interact with FastAPI.             |
 
 ## Milestones
 
 | **Milestone** | **Included Phases** | **Title**                             | **Objective / Focus**                                                                 | **Expected Outcome**                                              |
 | ------------- | ------------------- | ------------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| M1            | P1 – P3             | Core Document Intelligence            | Build ingestion and indexing foundation across multiple file types and local folders. | Robust RAG pipeline with multi-format and folder-based ingestion. |
-| M2            | P4                  | Automation & Sync                     | Implement real-time folder monitoring for automatic re-indexing.                      | Dynamic ingestion pipeline that updates automatically.            |
+| M1            | P1 – P2             | Core Document Intelligence            | Build ingestion and indexing foundation across multiple file types.                   | Robust RAG pipeline with multi-format ingestion and clean chunks. |
+| M2            | P3 – P4             | Drive & Folder Ingestion              | Google Drive and local folder ingestion capabilities delivered.                        | Cloud + local ingestion foundation in place.                      |
 | M3            | P5                  | Evaluation & Quality Benchmarking     | Benchmark system accuracy, latency, and relevance.                                    | Baseline metrics established for further optimization.            |
 | M4            | P6                  | Search Optimization & Reranking       | Integrate hybrid search and reranking.                                                | Enhanced retrieval performance and contextual accuracy.           |
 | M5            | P7                  | Caching & Reindexing Efficiency       | Optimize speed and reindexing strategy.                                               | Faster, scalable retrieval and refresh workflows.                 |
@@ -54,7 +55,16 @@ This document outlines the planned development phases and milestones for the Int
 **Key Tools:** `RecursiveCharacterTextSplitter`, `FAISS`, `sentence-transformers`
 **Expected Outcome:** Cleaner chunks and better embeddings for retrieval quality
 
-### P3: Folder-Based Ingestion
+### P3: Google Drive Ingestion
+**Objective:** Read and index documents from Google Drive with secure auth.
+**Core Tasks:**
+- Connect to Google Drive API (service account or OAuth)
+- Support file listing, filtering by mime/type and folders
+- Batch download, parse, and index; handle deltas and updates
+**Key Tools:** Google Drive API, `google-auth`, `google-api-python-client`, `langchain`
+**Expected Outcome:** Secure cloud ingestion for enterprise Drive documents
+
+### P4: Folder-Based Ingestion
 **Objective:** Index all documents within a specified local directory path.
 **Core Tasks:**
 - Recursively traverse directories with allow/deny globs
@@ -63,7 +73,7 @@ This document outlines the planned development phases and milestones for the Int
 **Key Tools:** `os`, `pathlib`, `langchain`, `FAISS`
 **Expected Outcome:** Seamless ingestion of multiple local files via directory path
 
-### P4: Real-Time Folder Monitoring
+### P5: Real-Time Folder Monitoring
 **Objective:** Continuously watch folders and auto-trigger ingestion on changes.
 **Core Tasks:**
 - Implement watchers with `watchdog`
@@ -72,7 +82,7 @@ This document outlines the planned development phases and milestones for the Int
 **Key Tools:** `watchdog`, `os`, `langchain`
 **Expected Outcome:** Continuous, automated updates to the local document index
 
-### P5: Evaluation & Quality Benchmarking
+### P6: Evaluation & Quality Benchmarking
 **Objective:** Establish baseline RAG quality and latency metrics before optimization.
 **Core Tasks:**
 - Integrate `RAGAS` for faithfulness/relevance
@@ -81,7 +91,7 @@ This document outlines the planned development phases and milestones for the Int
 **Key Tools:** `RAGAS`, `LangSmith`
 **Expected Outcome:** Baseline metrics to guide further optimization
 
-### P6: Search Optimization & Reranking
+### P7: Search Optimization & Reranking
 **Objective:** Improve recall and precision with hybrid search and reranking.
 **Core Tasks:**
 - Add BM25 lexical search and combine with semantic retrieval
@@ -90,7 +100,7 @@ This document outlines the planned development phases and milestones for the Int
 **Key Tools:** `BM25`, hybrid retrievers, rerankers, `FAISS`, `sentence-transformers`
 **Expected Outcome:** Higher recall and contextual precision
 
-### P7: Caching & Reindexing Efficiency
+### P8: Caching & Reindexing Efficiency
 **Objective:** Reduce latency and optimize refresh cycles.
 **Core Tasks:**
 - Embed-level caching (local/Redis) to avoid recomputation
@@ -99,7 +109,7 @@ This document outlines the planned development phases and milestones for the Int
 **Key Tools:** Local cache, `Redis` (optional), incremental indexing logic
 **Expected Outcome:** Lower latency and optimized refresh cycles
 
-### P8: Observability & Tracing
+### P9: Observability & Tracing
 **Objective:** Provide system-level monitoring and visibility.
 **Core Tasks:**
 - Add structured logging and timing around critical paths
@@ -108,7 +118,7 @@ This document outlines the planned development phases and milestones for the Int
 **Key Tools:** `LangSmith`, logging middleware
 **Expected Outcome:** Clear visibility into pipeline health and metrics
 
-### P9: Frontend Integration & Access
+### P10: Frontend Integration & Access
 **Objective:** Deliver a usable enterprise UI tied to FastAPI.
 **Core Tasks:**
 - Build Windows desktop app with `PySide6` or a web frontend
